@@ -25,7 +25,6 @@ public class StarGenerator : MonoBehaviour
 
     public void Start()
     {
-        // Generate random values for NumberOfStars and DistanceMinBetweenTwoStar
         numberOfStars = Random.Range(numberOfStarsMin, numberOfStarsMax + 1);
         DistanceMinBetweenTwoStar = Random.Range(DistanceMinBetweenTwoStarMin, DistanceMinBetweenTwoStarMax);
 
