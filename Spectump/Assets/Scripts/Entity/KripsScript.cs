@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyMovement : MonoBehaviour
+public class KripsScript : MonoBehaviour
 {
     public float speed = 5f;
 
