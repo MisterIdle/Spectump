@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -20,10 +21,12 @@ public class PlayerController : MonoBehaviour
     private bool isVisible = true;
 
     private HealthManager healthManager;
+    private Canvas canvas;
 
     void Start()
     {
         healthManager = FindObjectOfType<HealthManager>();
+        canvas = FindObjectOfType<Canvas>();
     }
 
     void Update()
@@ -77,6 +80,7 @@ public class PlayerController : MonoBehaviour
     {
         if (healthManager.health == 0)
         {
+            canvas.GameOver();
             Destroy(gameObject);
         }
     }
