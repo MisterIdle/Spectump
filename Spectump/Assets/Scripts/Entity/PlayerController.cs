@@ -21,12 +21,10 @@ public class PlayerController : MonoBehaviour
     private bool isVisible = true;
 
     private HealthManager healthManager;
-    private Canvas canvas;
 
     void Start()
     {
         healthManager = FindObjectOfType<HealthManager>();
-        canvas = FindObjectOfType<Canvas>();
     }
 
     void Update()
@@ -34,7 +32,6 @@ public class PlayerController : MonoBehaviour
         Clignotement();
         RotatePlayer();
         MovePlayer();
-        Life();
 
         if (Input.GetButton("Fire1") && Time.time >= nextFireTime)
         {
@@ -76,15 +73,6 @@ public class PlayerController : MonoBehaviour
         Instantiate(bulletPrefab, firePoint.position, transform.rotation);
     }
 
-    void Life()
-    {
-        if (healthManager.health == 0)
-        {
-            canvas.GameOver();
-            Destroy(gameObject);
-        }
-    }
-
     void Clignotement()
     {
         if (isInvincible)
@@ -100,23 +88,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int damage)
-    {
-        if (!isInvincible)
-        {
-            healthManager.health -= damage;
-            isInvincible = true;
-            invincibilityEndTime = Time.time + invincibilityDuration;
-            Clignotement();
-        }
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Enemy" && !isInvincible)
         {
-            TakeDamage(1);
-
             Destroy(collision.gameObject);
         }
     }

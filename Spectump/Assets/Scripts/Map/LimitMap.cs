@@ -22,8 +22,6 @@ public class LimitMap : MonoBehaviour
             Vector2 directionToCenter = transform.position - collision.transform.position;
             player.AddForce(directionToCenter.normalized * forceMagnitude, ForceMode2D.Impulse);
 
-            playerController.TakeDamage(1);
-
             Invoke("StopForce", pushDuration);
         }
     }
