@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 01f36f68836f08c4fb86a392aa88eafe, type: 3}
+  m_Sprite: {fileID: 21300000, guid: eee63733f95793e4a97c60f4b93d8cdb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -116,7 +116,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 16.235693, y: 14.22239, z: -2.2705708}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1385400443323922597}
@@ -302,8 +302,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67f821d8ab7e48c4caefe0dc7cf3afb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 2
   rotationSpeed: 2
+  movementSpeed: 2
+  movementSpeedMin: 0.5
+  movementSpeedMax: 3
+  scrollSensibility: 1
   health: 100
   fireRate: 0.5
   bulletSpawnPoints:
@@ -312,6 +315,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 5568495664293702916, guid: baaa857a56c895143a8ba00ae2453795, type: 3}
   playerSprite: {fileID: 742266808376975408}
   firePoint: {fileID: 0}
+  hud: {fileID: 0}
   isInvincible: 0
 --- !u!114 &968760849081325901
 MonoBehaviour:

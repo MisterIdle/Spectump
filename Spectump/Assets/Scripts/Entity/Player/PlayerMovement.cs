@@ -1,13 +1,14 @@
-using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
-    public float movementSpeed = 2f;
     public float rotationSpeed = 5f;
+    public float movementSpeed = 1f;
+    public float movementSpeedMin = 0.5f;
+    public float movementSpeedMax = 3.0f;
+    public float scrollSensibility = 1.0f;
 
     [Header("Health")]
     public float health = 75;
@@ -22,6 +23,8 @@ public class PlayerMovement : MonoBehaviour
     public SpriteRenderer playerSprite;
     public Transform firePoint;
 
+    public HUD hud;
+
 
     public bool isInvincible = false;
     private float invincibilityEndTime = 0f;
@@ -32,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         Move();
+        AdjustSpeeds();
         Rotation();
         Blinking();
 
@@ -47,11 +51,25 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    void AdjustSpeeds()
+    {
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+
+        movementSpeed += scroll * scrollSensibility;
+        movementSpeed = Mathf.Clamp(movementSpeed, movementSpeedMin, movementSpeedMax);
+
+        rotationSpeed = Mathf.Lerp(5f, 1f, (movementSpeed - movementSpeedMin) / (movementSpeedMax - movementSpeedMin));
+
+        hud.UpdateSpeedBar(movementSpeed);
+    }
+
+
     void Move() 
     {
         Vector3 movement = playerSprite.transform.up;
         transform.position += movement * movementSpeed * Time.deltaTime;
     }
+
 
     void Rotation()
     {
