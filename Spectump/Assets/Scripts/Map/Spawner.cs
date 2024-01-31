@@ -2,26 +2,56 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum MobType
+{
+    Krip,
+    LongShooter
+}
+
 public class Spawner : MonoBehaviour
 {
+    [Header("Spawn Settings")]
+    public bool kripCanSpawn = true;
+    public bool longShooterCanSpawn = true;
+
+    [Header("Krip Settings")]
+    public int kripsGroupMin = 2;
+    public int kripsGroupMax = 5;
+    
+    [Header("Spawn Mob Type")]
+    public List<GameObject> spawnMobType = new List<GameObject>();
+
+    [Header("Spawn Pourcentage")]
+    public float kripSpawnPourcentage = 0.6f;
+    public float longShooterSpawnPourcentage = 0.4f;
+
+    int kripsGroup;
+    int longShooterGroup = 1;
+    int spawnRandom;
+
     SpriteRenderer spriteRenderer;
     bool isBlinking = false;
 
-    public int kripsGroupMin = 2;
-    public int kripsGroupMax = 5;
-    private int kripsGroup;
-
-    Canvas canvas;
-
-    public List<GameObject> spawnMobType = new List<GameObject>();
-
     public void Start()
     {
+        float spawnProbability = Random.value;
+    
+        if (spawnProbability <= kripSpawnPourcentage)
+        {
+            spawnRandom = 0;
+        }
+        else if (spawnProbability <= longShooterSpawnPourcentage)
+        {
+            spawnRandom = 1;
+        }
+    
         spriteRenderer = GetComponent<SpriteRenderer>();
         kripsGroup = Random.Range(kripsGroupMin, kripsGroupMax);
-        InvokeRepeating("SpawnKrips", 3, 0.5f);
+    
+        InvokeRepeating("SpawnMobs", 3, 0.5f);
         InvokeRepeating("ToggleBlink", 1, 0.3f);
     }
+
 
     private void ToggleBlink()
     {
@@ -30,10 +60,10 @@ public class Spawner : MonoBehaviour
 
     private void Update()
     {
-        Clignotement();
+        CrossBlinking();
     }
 
-    private void Clignotement()
+    private void CrossBlinking()
     {
         if (isBlinking)
         {
@@ -45,18 +75,32 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    private void SpawnKrips()
+    private void SpawnMobs()
     {
-        if (kripsGroup > 0)
+        if (kripCanSpawn && kripsGroup > 0 && spawnRandom == 0)
         {
-            Instantiate(spawnMobType[0], transform.position, Quaternion.identity);
+            Instantiate(spawnMobType[(int)MobType.Krip], transform.position, Quaternion.identity);
             kripsGroup--;
+
+            if (kripsGroup == 0)
+            {
+                CancelInvoke("SpawnMobs");
+                CancelInvoke("ToggleBlink");
+                Destroy(gameObject);
+            }
         }
-        else
+
+        if (longShooterCanSpawn && longShooterGroup > 0 && spawnRandom == 1)
         {
-            CancelInvoke("SpawnKrips");
-            CancelInvoke("ToggleBlink");
-            Destroy(gameObject);
+            Instantiate(spawnMobType[(int)MobType.LongShooter], transform.position, Quaternion.identity);
+            longShooterGroup--;
+
+            if (longShooterGroup == 0)
+            {
+                CancelInvoke("SpawnMobs");
+                CancelInvoke("ToggleBlink");
+                Destroy(gameObject);
+            }
         }
     }
 }

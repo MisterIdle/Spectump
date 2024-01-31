@@ -8,11 +8,11 @@ public class LimitMap : MonoBehaviour
     public float pushDuration = 0.1f;
     public float friction = 0.1f;
     public Rigidbody2D player;
-    private PlayerController playerController;
+    private PlayerMovement playerController;
 
     public void Start()
     {
-        playerController = FindObjectOfType<PlayerController>();
+        playerController = FindObjectOfType<PlayerMovement>();
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -21,6 +21,8 @@ public class LimitMap : MonoBehaviour
         {
             Vector2 directionToCenter = transform.position - collision.transform.position;
             player.AddForce(directionToCenter.normalized * forceMagnitude, ForceMode2D.Impulse);
+
+            playerController.SetDamage(5);
 
             Invoke("StopForce", pushDuration);
         }

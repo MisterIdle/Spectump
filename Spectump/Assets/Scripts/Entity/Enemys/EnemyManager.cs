@@ -9,15 +9,17 @@ public class EnemyManager : MonoBehaviour
     public Vector3 direction;
 
     public int health = 0;
-    public int speed = 0;
+    public int mouvementSpeed = 0;
+    public float rotationSpeed = 0;
 
-    public EnemyManager(int health, int speed)
+    public EnemyManager(int health, int mouvementSpeed, float rotationSpeed)
     {
         this.health = health;
-        this.speed = speed;
+        this.mouvementSpeed = mouvementSpeed;
+        this.rotationSpeed = rotationSpeed;
     }
 
-    public void Awake()
+public void Awake()
     {
         GameObject lPlayerPosition = GameObject.FindGameObjectWithTag("Player");
         if (lPlayerPosition != null)
@@ -26,13 +28,36 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-
     public Vector3 GetPlayerPosition()
-    { return player.position; }
+    {
+        if (player != null)
+        {
+            return player.transform.position;
+        }
+        else
+        {
+            return Vector3.zero;
+        }
+    }
+
+    public void Move()
+    {
+        Vector3 movement = sprite.transform.up;
+        transform.position += movement * mouvementSpeed * Time.deltaTime;
+    }
 
     public void Rotate()
     {
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        sprite.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
+        sprite.transform.rotation = Quaternion.Slerp(sprite.transform.rotation, Quaternion.LookRotation(Vector3.forward, GetPlayerPosition() - transform.position), rotationSpeed * Time.deltaTime);
+    }
+
+    public void SetDamage(int damageAmount)
+    {
+        health -= damageAmount;
+
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }

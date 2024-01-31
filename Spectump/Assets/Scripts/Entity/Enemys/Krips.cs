@@ -2,19 +2,13 @@ using UnityEngine;
 
 public class Krips : EnemyManager
 {
-    public Krips(int health, int speed) : base(health, speed) { }
+    public Krips(int health, int mouvementSpeed, float rotationSpeed) : base(health, mouvementSpeed, rotationSpeed)
+    {
+    }
 
     void Update()
     {
-        move();
+        Move();
         Rotate();
-    }
-
-    void move()
-    {
-        direction = GetPlayerPosition() - transform.position;
-        direction.Normalize();
-
-        transform.Translate(direction * speed * Time.deltaTime);
     }
 }

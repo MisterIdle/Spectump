@@ -4,17 +4,22 @@ using UnityEngine;
 
 public class HyperSpawner : MonoBehaviour
 {
-    public GameObject cross;
+    public GameObject spawner;
     public CompositeCollider2D compositeCollider;
 
-    public float spawnIntervalMin = 1;
+    public float spawnIntervalMin = 5;
     public float spawnIntervalMax = 5;
     private float spawnInterval;
 
+    public bool crossCanSpawn = true;
+
     void Start()
     {
-        spawnInterval = Random.Range(spawnIntervalMin, spawnIntervalMax);
-        InvokeRepeating("SpawnCross", 0f, spawnInterval);
+        if (crossCanSpawn)
+        {
+            spawnInterval = Random.Range(spawnIntervalMin, spawnIntervalMax);
+            InvokeRepeating("SpawnCross", 0f, spawnInterval);
+        }
     }
 
     void SpawnCross()
@@ -26,7 +31,7 @@ public class HyperSpawner : MonoBehaviour
 
         Vector2 spawnPosition = new Vector2(randomX, randomY);
 
-        Instantiate(cross, spawnPosition, Quaternion.identity);
+        Instantiate(spawner, spawnPosition, Quaternion.identity);
         spawnInterval = Random.Range(spawnIntervalMin, spawnIntervalMax);
     }
 }
