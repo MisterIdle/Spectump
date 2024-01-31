@@ -491,8 +491,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae0400123b8c93945ac6bd0509b40417, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawner: {fileID: 0}
-  compositeCollider: {fileID: 0}
+  spawner: {fileID: 8713609482140315132, guid: 20a0e59cb0aeab34cb98510159989eab, type: 3}
+  compositeCollider: {fileID: 431919669}
   spawnIntervalMin: 1
   spawnIntervalMax: 5
   crossCanSpawn: 1
